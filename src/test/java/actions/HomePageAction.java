@@ -1,24 +1,22 @@
 package actions;
 
+import actions.common.BasePage;
+import interfaces.CommonInterface;
 import interfaces.HomePageInterface;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class HomePageAction extends BasePage implements HomePageInterface{
+public class HomePageAction extends BasePage {
+    WebDriver driver;
 
     public HomePageAction(WebDriver driver) {
-        super(driver);
-    }
-    public  void OpenHome(){
-        getPageUrl(Home_url);
-    }
-    public void ClickElements() {
-       waitForElementIsVisible(Elements);
-        scrollIntoView(Elements);
-        clickToElement(Elements);
+        this.driver = driver;
     }
 
-
-
+    public void clickOnMenu(String menu) {
+        scrollIntoView(driver, CommonInterface.HOME_PAGE_MENU, menu);
+        highlightElement(driver, CommonInterface.HOME_PAGE_MENU, menu);
+        SleepInSeconds(3);
+        clickToElement(driver, CommonInterface.HOME_PAGE_MENU, menu);
+    }
 
 }

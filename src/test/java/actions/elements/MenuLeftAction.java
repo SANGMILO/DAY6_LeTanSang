@@ -1,30 +1,18 @@
 package actions.elements;
 
-import actions.BasePage;
-import interfaces.elements.Menu_Left;
+import actions.common.BasePage;
+import interfaces.CommonInterface;
 import org.openqa.selenium.WebDriver;
 
-public class MenuLeftAction extends BasePage implements Menu_Left {
+public class MenuLeftAction extends BasePage {
+    WebDriver driver;
 
     public MenuLeftAction(WebDriver driver) {
-        super(driver);
+        this.driver = driver;
     }
 
-    public void openTextBox() {
-        waitForElementIsVisible(TextBox_menu);
-        scrollIntoView(TextBox_menu);
-        clickReliable(TextBox_menu);
-
+    public void clickOnMenuLeft(String menu){
+        highlightElement(driver, CommonInterface.ELEMENTS_MENU, menu);
+        clickToElement(driver, CommonInterface.ELEMENTS_MENU, menu);
     }
-
-    public void openCheckBox() {
-        waitForElementIsVisible(CheckBox_menu);
-        scrollIntoView(CheckBox_menu);
-        clickReliable(CheckBox_menu);
-
-    }
-    public void openRadioButton() {
-        clickReliable(RadioButton);
-    }
-
 }
