@@ -9,7 +9,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 /**
  * BasePage - Class cơ sở cho toàn bộ Page Object
  * Chứa toàn bộ hàm xử lý Locator, Element, Actions, Alert, Frame, Dropdown, Tab...
@@ -21,7 +20,6 @@ public class BasePage {
     protected JavascriptExecutor js;
 
     // Constructor
-
     //1. getXpath
     public By getXpath(String xpath) {
         return By.xpath(xpath);
@@ -170,40 +168,52 @@ public class BasePage {
         actions.moveToElement(getDynamicElement(driver, xpath)).perform();
     }
 
-//    //24. rightClickOnElement
-//    public void rightClickOnElement(By locator) {
-//        actions.contextClick(getElement(locator)).perform();
-//    }
-//
-//    //25. rightClickOnElement (params)
-//    public void rightClickOnElement(String pattern, String... params) {
-//        actions.contextClick(getDynamicElement(pattern, params)).perform();
-//    }
-//
-//    //26. doubleClickOnElement
-//    public void doubleClickOnElement(By locator) {
-//        actions.doubleClick(getElement(locator)).perform();
-//    }
-//
-//    //27. doubleClickOnElement (params)
-//    public void doubleClickOnElement(String pattern, String... params) {
-//        actions.doubleClick(getDynamicElement(pattern, params)).perform();
-//    }
-//
-//    //28. dragAndDropElement
-//    public void dragAndDropElement(By source, By target) {
-//        actions.dragAndDrop(getElement(source), getElement(target)).perform();
-//    }
+    //24. rightClickOnElement
+    public void rightClickOnElement(WebDriver driver,String xpath) {
+        actions = new Actions(driver);
+        waitForElementIsVisible(driver, xpath);
+        actions.contextClick(getElement(driver,xpath)).perform();
+    }
 
-//    //29. pressKeyToElement
-//    public void pressKeyToElement(By locator, Keys key) {
-//        getElement(locator).sendKeys(key);
-//    }
+    //25. rightClickOnElement (params)
+    public void rightClickOnElement(WebDriver driver,String xpath, String... params) {
+        actions = new Actions(driver);
+        waitForElementIsVisible(driver, xpath);
+        actions.contextClick(getDynamicElement(driver, xpath, params)).perform();
+    }
 
-//    //30. pressKeyToElement (params)
-//    public void pressKeyToElement(String pattern, Keys key, String... params) {
-//        getDynamicElement(pattern, params).sendKeys(key);
-//    }
+    //26. doubleClickOnElement
+    public void doubleClickOnElement(WebDriver driver,String xpath) {
+        actions = new Actions(driver);
+        waitForElementIsVisible(driver, xpath);
+        actions.doubleClick(getElement(driver, xpath)).perform();
+    }
+
+    //27. doubleClickOnElement (params)
+    public void doubleClickOnElement(WebDriver driver,String xpath, String... params) {
+        actions = new Actions(driver);
+        waitForElementIsVisible(driver, xpath);
+        actions.doubleClick(getDynamicElement(driver,xpath, params)).perform();
+    }
+
+    //28. dragAndDropElement
+    public void dragAndDropElement(WebDriver driver, String sourceXpath, String targetXpath) {
+        actions = new Actions(driver);
+        WebElement source = getElement(driver, sourceXpath);
+        WebElement target = getElement(driver, targetXpath);
+        actions.dragAndDrop(source, target).perform();
+    }
+
+
+    //29. pressKeyToElement
+    public void pressKeyToElement(WebDriver driver, String xpath, Keys key) {
+        getElement(driver, xpath).sendKeys(key);
+    }
+
+    //30. pressKeyToElement (params)
+    public void pressKeyToElement(WebDriver driver,String xpath,Keys key, String... params) {
+        getDynamicElement(driver,xpath, params).sendKeys(key);
+    }
 
     //31. getTextElement
     public String getTextElement(WebDriver driver, String xpath) {
@@ -217,226 +227,233 @@ public class BasePage {
         return getDynamicElement(driver, xpath, params).getText().trim();
     }
 
-//    //33. getElementAttributeValue
-//    public String getElementAttributeValue(By locator, String attribute) {
-//        return getElement(locator).getAttribute(attribute);
-//    }
-//
-//    //34. getElementAttributeValue (params)
-//    public String getElementAttributeValue(String pattern, String attribute, String... params) {
-//        return getDynamicElement(pattern, params).getAttribute(attribute);
-//    }
-//
-//    //35. getListElementSize
-//    public int getListElementSize(By locator) {
-//        return getElements(locator).size();
-//    }
+    //33. getElementAttributeValue
+    public String getElementAttributeValue(WebDriver driver, String xpath, String attribute) {
+        return getElement(driver,xpath).getAttribute(attribute);
+    }
 
-//    //36. getListElementSize (params)
-//    public int getListElementSize(String pattern, String... params) {
-//        return getElements(pattern, params).size();
-//    }
-//
-//    //37. isDisplayElement
-//    public boolean isDisplayElement(By locator) {
-//        try {
-//            return getElement(locator).isDisplayed();
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
+    //34. getElementAttributeValue (params)
+    public String getElementAttributeValue(WebDriver driver, String xpath, String attribute, String... params) {
+        return getDynamicElement(driver, xpath, params).getAttribute(attribute);
+    }
+
+    //35. getListElementSize
+    public int getListElementSize(WebDriver driver, String xpath) {
+        return getElements(driver, xpath).size();
+    }
+
+    //36. getListElementSize (params)
+    public int getListElementSize(WebDriver driver, String xpath, String... params) {
+        return getElements(driver, xpath, params).size();
+    }
+
+    //37. isDisplayElement
+    public boolean isDisplayElement(WebDriver driver, String xpath) {
+        try {
+            return getElement(driver, xpath).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     //38. isDisplayElement (params)
-//    public boolean isDisplayElement(String pattern, String... params) {
-//        try {
-//            return getDynamicElement(pattern, params).isDisplayed();
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
-//
-//    //39. isDisplayElements
-//    public boolean isDisplayElements(By locator) {
-//        List<WebElement> list = getElements(locator);
-//        return !list.isEmpty() && list.stream().allMatch(WebElement::isDisplayed);
-//    }
+    public boolean isDisplayElement(WebDriver driver, String xpath, String... params) {
+        try {
+            return getDynamicElement(driver,xpath, params).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    //39. isDisplayElements
+    public boolean isDisplayElements(WebDriver driver, String xpath) {
+        List<WebElement> list = getElements(driver, xpath);
+        return !list.isEmpty() && list.stream().allMatch(WebElement::isDisplayed);
+    }
 
     //40. isDisplayElements (params)
-//    public boolean isDisplayElements(String pattern, String... params) {
-//        List<WebElement> list = getElements(pattern, params);
-//        return !list.isEmpty() && list.stream().allMatch(WebElement::isDisplayed);
-//    }
-//
-//    //41. getPageUrl
-//    public void getPageUrl(String url) {
-//        driver.get(url);
-//    }
+    public boolean isDisplayElements(WebDriver driver, String xpath, String... params) {
+        List<WebElement> list = getElements(driver, xpath, params);
+        return !list.isEmpty() && list.stream().allMatch(WebElement::isDisplayed);
+    }
 
-//    //42. getPageTitle
-//    public String getPageTitle() {
-//        return driver.getTitle();
-//    }
-//
-//    //43. getPageSourceCode
-//    public String getPageSourceCode() {
-//        return driver.getPageSource();
-//    }
-//
-//    //44. getCurrentUrl
-//    public String getCurrentUrl() {
-//        return driver.getCurrentUrl();
-//    }
-//
-//    //45. backToPage
-//    public void backToPage() {
-//        driver.navigate().back();
-//    }
-//
-//    //46. forwardToPage
-//    public void forwardToPage() {
-//        driver.navigate().forward();
-//    }
-//
-//    //47. refreshPage
-//    public void refreshPage() {
-//        driver.navigate().refresh();
-//    }
-//
-//    //48. waitForAlertPresence
-//    public Alert waitForAlertPresence() {
-//        return wait.until(ExpectedConditions.alertIsPresent());
-//    }
+    //41. getPageUrl
+    public void getPageUrl(WebDriver driver, String url) {
+        driver.get(url);
+    }
 
-//    //49. acceptAlert
-//    public void acceptAlert() {
-//        waitForAlertPresence().accept();
-//    }
-//
-//    //50. cancelAlert
-//    public void cancelAlert() {
-//        waitForAlertPresence().dismiss();
-//    }
-//
-//    //51. getTextAlert
-//    public String getTextAlert() {
-//        return waitForAlertPresence().getText();
-//    }
-//
-//    //52. enterTextToAlert
-//    public void enterTextToAlert(String text) {
-//        waitForAlertPresence().sendKeys(text);
-//    }
-//
-//    //53. switchWindowByID
-//    public void switchWindowByID(String parentID) {
-//        Set<String> ID = driver.getWindowHandles();
-//        for (String id : ID) {
-//            if (!id.equals(parentID)) {
-//                driver.switchTo().window(id);
-//                break;
-//            }
-//        }
-//    }
-//
-//    //54. switchWindowByTitle
-//    public void switchWindowByTitle(String expectedTitle) {
-//        for (String id : driver.getWindowHandles()) {
-//            driver.switchTo().window(id);
-//            if (driver.getTitle().equals(expectedTitle)) {
-//                return;
-//            }
-//        }
-//    }
-//
-//    //55. closeAllWindowsWithoutParent
-//    public void closeAllWindowsWithoutParent(String parentID) {
-//        for (String id : driver.getWindowHandles()) {
-//            if (!id.equals(parentID)) {
-//                driver.switchTo().window(id);
-//                driver.close();
-//            }
-//        }
-//        driver.switchTo().window(parentID);
-//    }
-//
-//    //56. selectItemInDefaultDropdown
-//    public void selectItemInDefaultDropdown(By locator, String text) {
-//        new Select(getElement(locator)).selectByVisibleText(text);
-//    }
-//
-//    //57. selectItemInDefaultDropdown (params)
-//    public void selectItemInDefaultDropdown(String pattern, String text, String... params) {
-//        new Select(getDynamicElement(pattern, text)).selectByVisibleText(text);
-//    }
-//
-//    //58. getFirstSelectedTextItem
-//    public String getFirstSelectedTextItem(By locator) {
-//        return new Select(getElement(locator)).getFirstSelectedOption().getText();
-//    }
-//
-//    //59. getFirstSelectedTextItem (params)
-//    public String getFirstSelectedTextItem(String pattern, String... params) {
-//        return new Select(getDynamicElement(pattern, params)).getFirstSelectedOption().getText();
-//    }
-//
-//    //60. isDropdownMultiple
-//    public boolean isDropdownMultiple(By locator) {
-//        return new Select(getElement(locator)).isMultiple();
-//    }
-//
-//    //61. isDropdownMultiple (params)
-//    public boolean isDropdownMultiple(String pattern, String... params) {
-//        return new Select(getDynamicElement(pattern, params)).isMultiple();
-//    }
-//
-//    //62. checkToCheckboxOrRadio
-//    public void checkToCheckboxOrRadio(By locator) {
-//        WebElement e = getElement(locator);
-//        if (!e.isSelected()) {
-//            e.click();
-//        }
-//    }
-//
-//    //63. checkToCheckboxOrRadio (params)
-//    public void checkToCheckboxOrRadio(String pattern, String... params) {
-//        WebElement e = getDynamicElement(pattern, params);
-//        if (!e.isSelected()) {
-//            e.click();
-//        }
-//    }
-//
-//    //64. unCheckToCheckbox
-//    public void unCheckToCheckbox(By locator) {
-//        WebElement e = getElement(locator);
-//        if (e.isSelected()) {
-//            e.click();
-//        }
-//    }
-//
-//    //65. unCheckToCheckbox (params)
-//    public void unCheckToCheckbox(String pattern, String... params) {
-//        WebElement e = getDynamicElement(pattern, params);
-//        if (!e.isSelected()) {
-//            e.click();
-//        }
-//    }
-//
-//    //66. setImplicitTime
-//    public void setImplicitTime(long seconds) {
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
-//    }
-//
-//    //67. switchToFrame
-//    public void switchToFrame(By locator) {
-//        driver.switchTo().frame(getElement(locator));
-//    }
-//
-//    //68. switchToDefaultContent
-//    public void switchToDefaultContent() {
-//        driver.switchTo().defaultContent();
-//    }
-//
-//    69.ScrollInToView
+    //42. getPageTitle
+    public String getPageTitle(WebDriver driver) {
+        return driver.getTitle();
+    }
+
+    // 43. getPageSourceCode
+    public String getPageSourceCode(WebDriver driver) {
+        return driver.getPageSource();
+    }
+
+    // 44. getCurrentUrl
+    public String getCurrentUrl(WebDriver driver) {
+        return driver.getCurrentUrl();
+    }
+
+    // 45. backToPage
+    public void backToPage(WebDriver driver) {
+        driver.navigate().back();
+    }
+
+    // 46. forwardToPage
+    public void forwardToPage(WebDriver driver) {
+        driver.navigate().forward();
+    }
+
+    // 47. refreshPage
+    public void refreshPage(WebDriver driver) {
+        driver.navigate().refresh();
+    }
+
+    // 48. waitForAlertPresence
+    public Alert waitForAlertPresence(WebDriver driver) {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
+        return wait.until(ExpectedConditions.alertIsPresent());
+    }
+
+    // 49. acceptAlert
+    public void acceptAlert(WebDriver driver) {
+        waitForAlertPresence(driver).accept();
+    }
+
+    // 50. cancelAlert
+    public void cancelAlert(WebDriver driver) {
+        waitForAlertPresence(driver).dismiss();
+    }
+
+    // 51. getTextAlert
+    public String getTextAlert(WebDriver driver) {
+        return waitForAlertPresence(driver).getText();
+    }
+
+    // 52. enterTextToAlert
+    public void enterTextToAlert(WebDriver driver, String text) {
+        waitForAlertPresence(driver).sendKeys(text);
+    }
+
+    // 53. switchWindowByID
+    public void switchWindowByID(WebDriver driver, String parentID) {
+        Set<String> allIDs = driver.getWindowHandles();
+        for (String id : allIDs) {
+            if (!id.equals(parentID)) {
+                driver.switchTo().window(id);
+                break;
+            }
+        }
+    }
+
+    // 54. switchWindowByTitle
+    public void switchWindowByTitle(WebDriver driver, String expectedTitle) {
+        for (String id : driver.getWindowHandles()) {
+            driver.switchTo().window(id);
+            if (driver.getTitle().equals(expectedTitle)) {
+                return;
+            }
+        }
+    }
+
+    // 55. closeAllWindowsWithoutParent
+    public void closeAllWindowsWithoutParent(WebDriver driver, String parentID) {
+        for (String id : driver.getWindowHandles()) {
+            if (!id.equals(parentID)) {
+                driver.switchTo().window(id);
+                driver.close();
+            }
+        }
+        driver.switchTo().window(parentID);
+    }
+
+    // 56. selectItemInDefaultDropdown
+    public void selectItemInDefaultDropdown(WebDriver driver, String xpath, String text) {
+        new Select(getElement(driver, xpath)).selectByVisibleText(text);
+    }
+
+    // 57. selectItemInDefaultDropdown (params)
+    public void selectItemInDefaultDropdown(WebDriver driver, String xpath, String text, String... params) {
+        new Select(getDynamicElement(driver, xpath, params)).selectByVisibleText(text);
+    }
+
+    // 58. getFirstSelectedTextItem
+    public String getFirstSelectedTextItem(WebDriver driver, String xpath) {
+        return new Select(getElement(driver, xpath)).getFirstSelectedOption().getText();
+    }
+
+    // 59. getFirstSelectedTextItem (params)
+    public String getFirstSelectedTextItem(WebDriver driver, String xpath, String... params) {
+        return new Select(getDynamicElement(driver, xpath, params)).getFirstSelectedOption().getText();
+    }
+
+    // 60. isDropdownMultiple
+    public boolean isDropdownMultiple(WebDriver driver, String xpath) {
+        return new Select(getElement(driver, xpath)).isMultiple();
+    }
+
+    // 61. isDropdownMultiple (params)
+    public boolean isDropdownMultiple(WebDriver driver, String xpath, String... params) {
+        return new Select(getDynamicElement(driver, xpath, params)).isMultiple();
+    }
+
+    // 62. checkToCheckboxOrRadio
+    public void checkToCheckboxOrRadio(WebDriver driver, String xpath) {
+        WebElement e = getElement(driver, xpath);
+        if (!e.isSelected()) {
+            e.click();
+        }
+    }
+
+    // 63. checkToCheckboxOrRadio (params)
+    public void checkToCheckboxOrRadio(WebDriver driver, String xpath, String... params) {
+        WebElement e = getDynamicElement(driver, xpath, params);
+        if (!e.isSelected()) {
+            e.click();
+        }
+    }
+
+    // 64. unCheckToCheckbox
+    public void unCheckToCheckbox(WebDriver driver, String xpath) {
+        WebElement e = getElement(driver, xpath);
+        if (e.isSelected()) {
+            e.click();
+        }
+    }
+
+    // 65. unCheckToCheckbox (params)
+    public void unCheckToCheckbox(WebDriver driver, String xpath, String... params) {
+        WebElement e = getDynamicElement(driver, xpath, params);
+        if (e.isSelected()) {
+            e.click();
+        }
+    }
+
+    // 66. setImplicitTime
+    public void setImplicitTime(WebDriver driver, long seconds) {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
+    }
+
+    // 67. switchToFrame
+    public void switchToFrame(WebDriver driver, String xpath) {
+        driver.switchTo().frame(getElement(driver, xpath));
+    }
+
+    // 67b. switchToFrame (params)
+    public void switchToFrame(WebDriver driver, String xpath, String... params) {
+        driver.switchTo().frame(getDynamicElement(driver, xpath, params));
+    }
+
+    // 68. switchToDefaultContent
+    public void switchToDefaultContent(WebDriver driver) {
+        driver.switchTo().defaultContent();
+    }
+
+
+    //    69.ScrollInToView
     public void scrollIntoView(WebDriver driver, String xpath, String... params) {
         WebElement el = getDynamicElement(driver, xpath, params);
         try {
@@ -447,78 +464,78 @@ public class BasePage {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", el);
         }
     }
-//
-//    //70. clickReliable
-//    public void clickReliable(By locator) {
-//        try {
-//            waitForElementClickable(locator);
-//            scrollIntoView(locator);
-//            clickToElement(locator);
-//        } catch (Exception e) {
-//            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getElement(locator));
-//        }
-//    }
-//
-//    //71. Dismiss Sticky Overlays (ẩn quảng cáo, popup che khuất)
-//    public void dismissStickyOverlaysIfAny() {
-//        try {
-//            List<WebElement> overlays = driver.findElements(By.xpath("//*[contains(@style,'position: fixed') or contains(@style,'position: absolute')]"));
-//            for (WebElement overlay : overlays) {
-//                ((JavascriptExecutor) driver).executeScript("arguments[0].style.display='none';", overlay);
-//            }
-//        } catch (Exception e) {
-//            // Bỏ qua nếu không có overlay
-//        }
-//    }
-//
-//    //72. Safe Click (click an toàn)
-//    public void safeClick(By locator) {
-//        for (int i = 0; i < 3; i++) {
-//            try {
-//                waitForElementClickable(locator);
-//                getElement(locator).click();
-//                return;
-//            } catch (ElementClickInterceptedException e) {
-//                dismissStickyOverlaysIfAny();
-//                SleepInSeconds(1);
-//            } catch (StaleElementReferenceException e) {
-//                SleepInSeconds(1);
-//            }
-//        }
-//        clickToElementByJS(locator);
-//    }
-//
-//    //73. Scroll to Bottom
-//    public void scrollToBottom() {
-//        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
-//    }
-//
-//    //74. Scroll to Top
-//    public void scrollToTop() {
-//        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
-//    }
-//
-//    //75. Wait for Page Loaded (JS readyState = complete)
-//    public void waitForPageLoaded() {
-//        new WebDriverWait(driver, Duration.ofSeconds(15)).until(webDriver ->
-//                ((JavascriptExecutor) webDriver)
-//                        .executeScript("return document.readyState").equals("complete"));
-//    }
-//
-//    //76. Click To Element By Action (cho button khó click)
-//    public void clickToElementByAction(By locator) {
-//        waitForElementClickable(locator);
-//        actions.moveToElement(getElement(locator)).click().perform();
-//    }
-//
-//    //77. Get all text in list elements
-//    public List<String> getElementsText(By locator) {
-//        List<String> texts = new ArrayList<>();
-//        for (WebElement e : getElements(locator)) {
-//            texts.add(e.getText().trim());
-//        }
-//        return texts;
-//    }
+    // 70. clickReliable
+    public void clickReliable(WebDriver driver, String xpath, String... params) {
+        try {
+            waitForElementClickable(driver, xpath, params);
+            scrollIntoView(driver, xpath, params);
+            clickToElement(driver, xpath, params);
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getDynamicElement(driver, xpath, params));
+        }
+    }
+
+    // 71. dismissStickyOverlaysIfAny
+    public void dismissStickyOverlaysIfAny(WebDriver driver) {
+        try {
+            List<WebElement> overlays = driver.findElements(
+                    By.xpath("//*[contains(@style,'position: fixed') or contains(@style,'position: absolute')]"));
+            for (WebElement overlay : overlays) {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].style.display='none';", overlay);
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    // 72. safeClick
+    public void safeClick(WebDriver driver, String xpath, String... params) {
+        for (int i = 0; i < 3; i++) {
+            try {
+                waitForElementClickable(driver, xpath, params);
+                getDynamicElement(driver, xpath, params).click();
+                return;
+            } catch (ElementClickInterceptedException e) {
+                dismissStickyOverlaysIfAny(driver);
+                SleepInSeconds(1);
+            } catch (StaleElementReferenceException e) {
+                SleepInSeconds(1);
+            }
+        }
+        clickToElementByJS(driver, xpath, params);
+    }
+
+    // 73. scrollToBottom
+    public void scrollToBottom(WebDriver driver) {
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+    }
+
+    // 74. scrollToTop
+    public void scrollToTop(WebDriver driver) {
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
+    }
+
+    // 75. waitForPageLoaded
+    public void waitForPageLoaded(WebDriver driver) {
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(webDriver ->
+                ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    }
+
+    // 76. clickToElementByAction
+    public void clickToElementByAction(WebDriver driver, String xpath, String... params) {
+        waitForElementClickable(driver, xpath, params);
+        actions = new Actions(driver);
+        actions.moveToElement(getDynamicElement(driver, xpath, params)).click().perform();
+    }
+
+    // 77. getElementsText
+    public List<String> getElementsText(WebDriver driver, String xpath, String... params) {
+        List<String> texts = new ArrayList<>();
+        for (WebElement e : getElements(driver, xpath, params)) {
+            texts.add(e.getText().trim());
+        }
+        return texts;
+    }
+
 }
 
 
