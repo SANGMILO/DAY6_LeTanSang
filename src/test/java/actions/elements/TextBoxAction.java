@@ -1,10 +1,14 @@
 package actions.elements;
 
-import actions.common.BasePage;
-import interfaces.CommonInterface;
+import actions.common.BasePage;;
 import interfaces.elements.TextBoxPageInterface;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import static interfaces.elements.TextBoxPageInterface.*;
+
 
 public class TextBoxAction extends BasePage {
     WebDriver driver;
@@ -12,33 +16,35 @@ public class TextBoxAction extends BasePage {
         this.driver = driver;
     }
     public void enterFullName(String value) {
-
-        enterTextToElement(driver, TextBoxPageInterface.FULL_NAME_INPUT, value);
+        waitForElementIsVisible(driver,FULL_NAME_INPUT);
+        enterTextToElement(driver, FULL_NAME_INPUT, value);
     }
 
     public void enterEmail(String value) {
-        enterTextToElement(driver, TextBoxPageInterface.EMAIL_INPUT, value);
+        waitForElementIsVisible(driver,EMAIL_INPUT);
+        enterTextToElement(driver, EMAIL_INPUT, value);
     }
 
     public void enterCurrentAddress(String value) {
-        enterTextToElement(driver, TextBoxPageInterface.CURRENT_ADDRESS_TEXTAREA, value);
+        waitForElementIsVisible(driver,CURRENT_ADDRESS_TEXTAREA);
+        enterTextToElement(driver, CURRENT_ADDRESS_TEXTAREA, value);
     }
 
     public void enterPermanentAddress(String value) {
+        waitForElementIsVisible(driver,PERMANENT_ADDRESS_TEXTAREA);
         enterTextToElement(driver, TextBoxPageInterface.PERMANENT_ADDRESS_TEXTAREA, value);
     }
 
     public void clickSubmitButton(String value) {
-        highlightElement(driver, TextBoxPageInterface.SUBMIT_BUTTON, value);
+        waitForElementIsVisible(driver,SUBMIT_BUTTON);
+        scrollIntoView(driver,SUBMIT_BUTTON);
         clickToElement(driver, TextBoxPageInterface.SUBMIT_BUTTON);
     }
 
-    public String getOutputValue(String id) {
-        return getTextElement(driver, TextBoxPageInterface.OUTPUT_FIELD_BY_ID, id);
-    }
 
-    public String getBorderColor(String id) {
-        return (String) ((JavascriptExecutor) driver)
-                .executeScript("return window.getComputedStyle(document.getElementById('" + id + "')).borderColor;");
+    public String getResult() {
+        waitForElementIsVisible(driver, String.valueOf(OUTPUT_TEXT));
+        String outputresult = getTextElement(driver, String.valueOf(OUTPUT_TEXT));
+        return outputresult;
     }
 }

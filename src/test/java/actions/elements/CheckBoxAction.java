@@ -4,6 +4,9 @@ import actions.common.BasePage;
 import interfaces.elements.CheckBoxPageInterface;
 import org.openqa.selenium.WebDriver;
 
+import static interfaces.elements.CheckBoxPageInterface.*;
+import static interfaces.elements.TextBoxPageInterface.OUTPUT_TEXT;
+
 public class CheckBoxAction extends BasePage {
     WebDriver driver;
 
@@ -12,14 +15,16 @@ public class CheckBoxAction extends BasePage {
     }
 
     public void expandAll() {
-        clickToElement(driver, CheckBoxPageInterface.EXPAND_ALL_BUTTON);
+        waitForElementIsVisible(driver, EXPAND_ALL_BUTTON);
+        clickToElement(driver, EXPAND_ALL_BUTTON);
     }
 
     public void selectNode(String nodeName) {
-        clickToElement(driver, CheckBoxPageInterface.NODE_BY_TEXT, nodeName);
+        waitForElementIsVisible(driver, NODE_BY_TEXT, nodeName);
+        clickToElement(driver, NODE_BY_TEXT, nodeName);
     }
 
     public String getResultText() {
-        return getTextElement(driver, CheckBoxPageInterface.OUTPUT_RESULT);
+        return getTextElement(driver, RESULT_BOX).trim();
     }
 }

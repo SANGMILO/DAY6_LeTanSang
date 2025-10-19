@@ -15,6 +15,6 @@ public class RadioAction extends BasePage {
     }
 
     public String getResultText() {
-        return getTextElement(driver, RadioButtonPageInterface.OUTPUT_RESULT);
+        return getTextElement(driver, RadioButtonPageInterface.OUTPUT_TEXT);
     }
 }

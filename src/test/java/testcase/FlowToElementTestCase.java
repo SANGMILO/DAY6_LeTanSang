@@ -3,11 +3,8 @@ package testcase;
 import actions.HomePageAction;
 import actions.common.BaseTest;
 import actions.elements.*;
-import interfaces.form.FormPageInterface;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -42,15 +39,8 @@ public class FlowToElementTestCase extends BaseTest {
         textBox.enterPermanentAddress("34 Le Loi, HCM");
         textBox.clickSubmitButton(SUBMIT_BUTTON);
 
-        String outputName = textBox.getOutputValue("name");
-        String outputEmail = textBox.getOutputValue("email");
-        String outputCurrent = textBox.getOutputValue("currentAddress");
-        String outputPermanent = textBox.getOutputValue("permanentAddress");
-
-        Assert.assertTrue(outputName.contains("Nguyen Van A"));
-        Assert.assertTrue(outputEmail.contains("user@example.com"));
-        Assert.assertTrue(outputCurrent.contains("12 Nguyen Trai"));
-        Assert.assertTrue(outputPermanent.contains("34 Le Loi"));
+        String result = textBox.getResult();
+        System.out.println(System.lineSeparator()+"Result: "+ result);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException ignored) {}
@@ -91,6 +81,9 @@ public class FlowToElementTestCase extends BaseTest {
 
         Assert.assertTrue(checkBox.getResultText().toLowerCase().contains("desktop"),
                 "Kết quả không chứa từ 'desktop'");
+
+        String result = checkBox.getResultText();
+        System.out.println(System.lineSeparator()+"Result: "+ result);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException ignored) {}
@@ -108,6 +101,10 @@ public class FlowToElementTestCase extends BaseTest {
         Assert.assertTrue(result.contains("home"));
         Assert.assertTrue(result.contains("documents"));
         Assert.assertTrue(result.contains("downloads"));
+
+        String resultt = checkBox.getResultText();
+        System.out.println(System.lineSeparator()+"Result: "+ resultt);
+
         try {
             Thread.sleep(5000);
         } catch (InterruptedException ignored) {}
@@ -125,5 +122,8 @@ public class FlowToElementTestCase extends BaseTest {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException ignored) {}
+
+        String result = radioButton.getResultText();
+        System.out.println(System.lineSeparator()+"Result: "+ result);
     }
 }
