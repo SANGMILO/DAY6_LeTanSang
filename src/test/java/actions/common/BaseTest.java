@@ -27,7 +27,6 @@ public class BaseTest {
                 WebDriverManager.chromedriver().setup();
                 chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--remote-allow-origins=*");
-                chromeOptions.setExperimentalOption("detach", true);
                 driver = new ChromeDriver(chromeOptions);
                 break;
             case "EDGE":

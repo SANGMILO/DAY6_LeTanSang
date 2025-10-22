@@ -36,15 +36,15 @@ public class TextBoxAction extends BasePage {
     }
 
     public void clickSubmitButton(String value) {
-        waitForElementIsVisible(driver,SUBMIT_BUTTON);
-        scrollIntoView(driver,SUBMIT_BUTTON);
+        waitForElementIsVisible(driver,TextBoxPageInterface.SUBMIT_BUTTON);
+        scrollIntoView(driver,TextBoxPageInterface.SUBMIT_BUTTON);
         clickToElement(driver, TextBoxPageInterface.SUBMIT_BUTTON);
     }
 
 
     public String getResult() {
         waitForElementIsVisible(driver, String.valueOf(OUTPUT_TEXT));
-        String outputresult = getTextElement(driver, String.valueOf(OUTPUT_TEXT));
+        String outputresult = getTextElement(driver, OUTPUT_TEXT);
         return outputresult;
     }
 }

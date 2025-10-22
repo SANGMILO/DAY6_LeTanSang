@@ -229,26 +229,31 @@ public class BasePage {
 
     //33. getElementAttributeValue
     public String getElementAttributeValue(WebDriver driver, String xpath, String attribute) {
+        waitForElementIsVisible(driver, xpath);
         return getElement(driver,xpath).getAttribute(attribute);
     }
 
     //34. getElementAttributeValue (params)
     public String getElementAttributeValue(WebDriver driver, String xpath, String attribute, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         return getDynamicElement(driver, xpath, params).getAttribute(attribute);
     }
 
     //35. getListElementSize
     public int getListElementSize(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         return getElements(driver, xpath).size();
     }
 
     //36. getListElementSize (params)
     public int getListElementSize(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         return getElements(driver, xpath, params).size();
     }
 
     //37. isDisplayElement
     public boolean isDisplayElement(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         try {
             return getElement(driver, xpath).isDisplayed();
         } catch (Exception e) {
@@ -258,6 +263,7 @@ public class BasePage {
 
     //38. isDisplayElement (params)
     public boolean isDisplayElement(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         try {
             return getDynamicElement(driver,xpath, params).isDisplayed();
         } catch (Exception e) {
@@ -267,12 +273,14 @@ public class BasePage {
 
     //39. isDisplayElements
     public boolean isDisplayElements(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         List<WebElement> list = getElements(driver, xpath);
         return !list.isEmpty() && list.stream().allMatch(WebElement::isDisplayed);
     }
 
     //40. isDisplayElements (params)
     public boolean isDisplayElements(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         List<WebElement> list = getElements(driver, xpath, params);
         return !list.isEmpty() && list.stream().allMatch(WebElement::isDisplayed);
     }
@@ -372,36 +380,43 @@ public class BasePage {
 
     // 56. selectItemInDefaultDropdown
     public void selectItemInDefaultDropdown(WebDriver driver, String xpath, String text) {
+        waitForElementIsVisible(driver, xpath);
         new Select(getElement(driver, xpath)).selectByVisibleText(text);
     }
 
     // 57. selectItemInDefaultDropdown (params)
     public void selectItemInDefaultDropdown(WebDriver driver, String xpath, String text, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         new Select(getDynamicElement(driver, xpath, params)).selectByVisibleText(text);
     }
 
     // 58. getFirstSelectedTextItem
     public String getFirstSelectedTextItem(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         return new Select(getElement(driver, xpath)).getFirstSelectedOption().getText();
     }
 
     // 59. getFirstSelectedTextItem (params)
     public String getFirstSelectedTextItem(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         return new Select(getDynamicElement(driver, xpath, params)).getFirstSelectedOption().getText();
     }
 
     // 60. isDropdownMultiple
     public boolean isDropdownMultiple(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         return new Select(getElement(driver, xpath)).isMultiple();
     }
 
     // 61. isDropdownMultiple (params)
     public boolean isDropdownMultiple(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         return new Select(getDynamicElement(driver, xpath, params)).isMultiple();
     }
 
     // 62. checkToCheckboxOrRadio
     public void checkToCheckboxOrRadio(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         WebElement e = getElement(driver, xpath);
         if (!e.isSelected()) {
             e.click();
@@ -410,6 +425,7 @@ public class BasePage {
 
     // 63. checkToCheckboxOrRadio (params)
     public void checkToCheckboxOrRadio(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         WebElement e = getDynamicElement(driver, xpath, params);
         if (!e.isSelected()) {
             e.click();
@@ -418,6 +434,7 @@ public class BasePage {
 
     // 64. unCheckToCheckbox
     public void unCheckToCheckbox(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         WebElement e = getElement(driver, xpath);
         if (e.isSelected()) {
             e.click();
@@ -426,6 +443,7 @@ public class BasePage {
 
     // 65. unCheckToCheckbox (params)
     public void unCheckToCheckbox(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         WebElement e = getDynamicElement(driver, xpath, params);
         if (e.isSelected()) {
             e.click();
@@ -439,11 +457,13 @@ public class BasePage {
 
     // 67. switchToFrame
     public void switchToFrame(WebDriver driver, String xpath) {
+        waitForElementIsVisible(driver, xpath);
         driver.switchTo().frame(getElement(driver, xpath));
     }
 
     // 67b. switchToFrame (params)
     public void switchToFrame(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         driver.switchTo().frame(getDynamicElement(driver, xpath, params));
     }
 
@@ -466,6 +486,7 @@ public class BasePage {
     }
     // 70. clickReliable
     public void clickReliable(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         try {
             waitForElementClickable(driver, xpath, params);
             scrollIntoView(driver, xpath, params);
@@ -489,6 +510,7 @@ public class BasePage {
 
     // 72. safeClick
     public void safeClick(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         for (int i = 0; i < 3; i++) {
             try {
                 waitForElementClickable(driver, xpath, params);
@@ -529,6 +551,7 @@ public class BasePage {
 
     // 77. getElementsText
     public List<String> getElementsText(WebDriver driver, String xpath, String... params) {
+        waitForElementIsVisible(driver, xpath, params);
         List<String> texts = new ArrayList<>();
         for (WebElement e : getElements(driver, xpath, params)) {
             texts.add(e.getText().trim());
